@@ -13,9 +13,9 @@ import {
 import { useSpecialtiesQuery } from '@/api/hooks/specialty/useSpecialtyQueries';
 
 const statusLabel = {
-  PENDING: 'Chờ trả lời',
-  ANSWERED: 'Đã trả lời',
-  CLOSED: 'Đã đóng',
+  PENDING: 'Pending',
+  ANSWERED: 'Answered',
+  CLOSED: 'Closed',
 };
 
 const extractQuestions = (payload) => {
