@@ -9,7 +9,7 @@ export const blogService = {
     return axiosClient.get(`/blogs/public/${slug}`);
   },
 
-  getBlogCategories: async () => {
-    return axiosClient.get('/blogs/categories');
+  getBlogCategories: async (params = { limit: 100, page: 1 }) => {
+    return axiosClient.get('/blogs/categories', { params });
   },
 };

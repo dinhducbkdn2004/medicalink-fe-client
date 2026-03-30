@@ -35,7 +35,10 @@ const BlogRightSidebar = () => {
 
   const blogs = blogResponse?.data || [];
   const popularPosts = popularResponse?.data || [];
-  const allCategories = categoriesResponse?.data || [];
+  const categoriesPayload = categoriesResponse?.data;
+  const allCategories = Array.isArray(categoriesPayload)
+    ? categoriesPayload
+    : categoriesPayload?.data ?? [];
   const categories = showAllCategories ? allCategories : allCategories.slice(0, 10);
 
   const handleSearch = (e) => {
