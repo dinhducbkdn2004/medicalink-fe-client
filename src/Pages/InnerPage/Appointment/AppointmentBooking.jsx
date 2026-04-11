@@ -7,7 +7,7 @@ import { HiOutlineMailOpen } from 'react-icons/hi';
 import { MdCall } from 'react-icons/md';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import { useDoctorsQuery, useDoctorSlotsQuery } from '@/api/hooks/doctor/useDoctorQueries';
+import { DOCTOR_KEYS, useDoctorsQuery, useDoctorSlotsQuery } from '@/api/hooks/doctor/useDoctorQueries';
 import { useWorkLocationsQuery } from '@/api/hooks/location/useLocationQueries';
 import { useSpecialtiesQuery } from '@/api/hooks/specialty/useSpecialtyQueries';
 import { appointmentService } from '@/api/services/appointmentService';
@@ -66,24 +66,26 @@ const MiniCalendar = ({ selectedDate, onDateSelect, availableDaysOfWeek }) => {
           const dateStr = d.format('YYYY-MM-DD');
           const isSelected = selectedDate === dateStr;
           const isPast = d.isBefore(moment(), 'day');
+          const hasOfficeHours = !availableDaysOfWeek?.size || availableDaysOfWeek.has(d.isoWeekday());
+          const isDisabled = isPast || !hasOfficeHours;
           return (
             <button
               key={dateStr}
               type='button'
-              disabled={isPast}
+              disabled={isDisabled}
               onClick={() => onDateSelect(dateStr)}
               className={`relative flex aspect-square items-center justify-center rounded-md font-AlbertSans text-sm transition-all ${
-                !isCurrentMonth ? 'text-gray-400 font-light' : 'text-HeadingColor-0 font-medium'
+                !isCurrentMonth ? 'text-gray-300 font-light' : isDisabled ? 'text-gray-400 font-medium' : 'text-HeadingColor-0 font-medium'
               } ${
                 isSelected
                   ? 'bg-PrimaryColor-0 text-white font-bold hover:bg-PrimaryColor-0/90 shadow'
-                  : !isPast
-                    ? 'hover:bg-PrimaryColor-0/10'
-                    : 'cursor-not-allowed opacity-50'
+                  : isDisabled
+                    ? 'cursor-not-allowed opacity-40'
+                    : 'hover:bg-PrimaryColor-0/10 cursor-pointer'
               }`}
             >
               <span className='z-10'>{d.date()}</span>
-              {!isPast && availableDaysOfWeek?.has(d.isoWeekday()) && (
+              {!isDisabled && hasOfficeHours && (
                 <div className={`absolute bottom-1 w-1 h-1 rounded-full ${isSelected ? 'bg-white' : 'bg-PrimaryColor-0'}`}></div>
               )}
             </button>
@@ -809,6 +811,7 @@ const AppointmentBooking = () => {
             <textarea
               placeholder='Reason for visit*'
               required
+              maxLength={255}
               value={reason}
               onChange={(ev) => setReason(ev.target.value)}
               className='font-AlbertSans text-HeadingColor-0 placeholder:text-HeadingColor-0 h-[120px] w-full resize-none rounded-2xl border border-Secondarycolor-0 border-opacity-45 bg-transparent py-2 px-6 font-light focus:outline-PrimaryColor-0'
