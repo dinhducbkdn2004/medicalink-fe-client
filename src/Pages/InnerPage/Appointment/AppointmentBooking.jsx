@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 import { FaUser, FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 import { GoArrowRight } from 'react-icons/go';
 import { HiOutlineMailOpen } from 'react-icons/hi';
@@ -14,18 +14,20 @@ import { appointmentService } from '@/api/services/appointmentService';
 import { patientService } from '@/api/services/patientService';
 import Loading from '@/Shared/Loading/Loading';
 
-const MiniCalendar = ({ selectedDate, onDateSelect }) => {
+import axiosClient from '@/api/core/axiosClient';
+
+const MiniCalendar = ({ selectedDate, onDateSelect, availableDaysOfWeek }) => {
   const [currentMonth, setCurrentMonth] = useState(() => moment(selectedDate || new Date()));
 
   // Allow calendar to change when external selectedDate changes
   useEffect(() => {
     if (selectedDate) {
       const d = moment(selectedDate);
-      if (d.isValid() && d.month() !== currentMonth.month()) {
-        setCurrentMonth(d);
-      }
+      setCurrentMonth((prev) => {
+        return (d.isValid() && d.month() !== prev.month()) ? d : prev;
+      });
     }
-  }, [selectedDate, currentMonth]);
+  }, [selectedDate]);
 
   const prevMonth = useCallback(() => setCurrentMonth(prev => moment(prev).subtract(1, 'month')), []);
   const nextMonth = useCallback(() => setCurrentMonth(prev => moment(prev).add(1, 'month')), []);
@@ -43,7 +45,7 @@ const MiniCalendar = ({ selectedDate, onDateSelect }) => {
   }, [currentMonth]);
 
   return (
-    <div className='w-full max-w-sm rounded-[1.2rem] border border-Secondarycolor-0 border-opacity-45 bg-white/50 p-4 shadow-sm'>
+    <div className='w-full h-full rounded-[1.2rem] border border-Secondarycolor-0 border-opacity-45 bg-white/50 p-5 shadow-sm'>
       <div className='mb-4 flex items-center justify-between'>
         <button type='button' onClick={prevMonth} className='rounded-full p-2 hover:bg-white/80 transition-colors'>
           <FaChevronLeft size={14} className='text-HeadingColor-0' />
@@ -70,7 +72,7 @@ const MiniCalendar = ({ selectedDate, onDateSelect }) => {
               type='button'
               disabled={isPast}
               onClick={() => onDateSelect(dateStr)}
-              className={`flex aspect-square items-center justify-center rounded-md font-AlbertSans text-sm transition-all ${
+              className={`relative flex aspect-square items-center justify-center rounded-md font-AlbertSans text-sm transition-all ${
                 !isCurrentMonth ? 'text-gray-400 font-light' : 'text-HeadingColor-0 font-medium'
               } ${
                 isSelected
@@ -80,7 +82,10 @@ const MiniCalendar = ({ selectedDate, onDateSelect }) => {
                     : 'cursor-not-allowed opacity-50'
               }`}
             >
-              {d.date()}
+              <span className='z-10'>{d.date()}</span>
+              {!isPast && availableDaysOfWeek?.has(d.isoWeekday()) && (
+                <div className={`absolute bottom-1 w-1 h-1 rounded-full ${isSelected ? 'bg-white' : 'bg-PrimaryColor-0'}`}></div>
+              )}
             </button>
           );
         })}
@@ -92,6 +97,7 @@ const MiniCalendar = ({ selectedDate, onDateSelect }) => {
 MiniCalendar.propTypes = {
   selectedDate: PropTypes.string,
   onDateSelect: PropTypes.func.isRequired,
+  availableDaysOfWeek: PropTypes.instanceOf(Set),
 };
 
 function pickInnerPayload(res) {
@@ -248,6 +254,24 @@ const AppointmentBooking = () => {
     enabled: !!doctorId && !!serviceDate && !!effectiveLocationId,
   });
 
+  const { data: publicOfficeHoursData } = useQuery({
+    queryKey: ['public-office-hours', doctorId, effectiveLocationId],
+    queryFn: async () => {
+      if (!doctorId || !effectiveLocationId) return [];
+      const res = await axiosClient.get('/office-hours/public', {
+        params: { doctorId, workLocationId: effectiveLocationId },
+      });
+      return res.data;
+    },
+    enabled: !!doctorId && !!effectiveLocationId,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const availableDaysOfWeek = useMemo(() => {
+    if (!publicOfficeHoursData || !Array.isArray(publicOfficeHoursData)) return new Set();
+    return new Set(publicOfficeHoursData.map((oh) => oh.dayOfWeek));
+  }, [publicOfficeHoursData]);
+
   const holdMutation = useMutation({
     mutationFn: (body) => appointmentService.holdSlot(body),
   });
@@ -281,9 +305,10 @@ const AppointmentBooking = () => {
             'Could not reserve this time slot. It may have been taken. Pick another.'
         );
         setSelectedSlot(null);
+        queryClient.invalidateQueries({ queryKey: DOCTOR_KEYS.slots(selectedDoctor.id, serviceDate, effectiveLocationId) });
       }
     },
-    [selectedDoctor, effectiveLocationId, serviceDate, holdMutation]
+    [selectedDoctor, effectiveLocationId, serviceDate, holdMutation, queryClient]
   );
 
   const handleClearStep1 = () => {
@@ -628,18 +653,21 @@ const AppointmentBooking = () => {
             </p>
           )}
 
-          <div className='mt-8 grid grid-cols-1 gap-8 md:grid-cols-2'>
-            <div>
+          <div className='mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12'>
+            <div className='w-full flex flex-col'>
               <h4 className='font-AlbertSans text-HeadingColor-0 mb-4 text-base font-semibold'>
                 Select appointment date
               </h4>
-              <MiniCalendar selectedDate={serviceDate} onDateSelect={setServiceDate} />
+              <div className='w-full flex-1'>
+                <MiniCalendar selectedDate={serviceDate} onDateSelect={setServiceDate} availableDaysOfWeek={availableDaysOfWeek} />
+              </div>
             </div>
             
-            <div>
+            <div className='w-full flex flex-col'>
               <h4 className='font-AlbertSans text-HeadingColor-0 mb-4 text-base font-semibold'>
                 Available time slots
               </h4>
+              <div className='w-full flex-1 rounded-[1.2rem] border border-Secondarycolor-0 border-opacity-45 bg-white/50 p-5 shadow-sm'>
               {!doctorId || !serviceDate || !effectiveLocationId ? (
                 <div className='rounded-xl border border-dashed border-Secondarycolor-0 border-opacity-45 p-6 text-center text-sm font-DMSans text-TextColor2-0'>
                   Please choose a doctor and location first.
@@ -658,7 +686,7 @@ const AppointmentBooking = () => {
                 </div>
               ) : (
                 <>
-                  <div className='grid grid-cols-3 gap-2 overflow-y-auto max-h-[280px] p-1'>
+                  <div className='grid grid-cols-3 gap-2 overflow-y-auto max-h-[320px] p-1'>
                     {slots.map((s, idx) => {
                       const active =
                         selectedSlot?.timeStart === s.timeStart &&
@@ -689,6 +717,7 @@ const AppointmentBooking = () => {
                   </div>
                 </>
               )}
+              </div>
             </div>
           </div>
 
