@@ -3,7 +3,7 @@ import BreadCrumb from '../../../Shared/BreadCrumb/BreadCrumb';
 import ContactBox from './ContactBox/ContactBox';
 import Map from './Map';
 import Appointment from '../../../Component1/Appointment/Appointment';
-import Subscribe from '../../../Component1/Subscribe/Subscribe';
+// import Subscribe from '../../../Component1/Subscribe/Subscribe';
 
 const ContactInner = () => {
   return (
@@ -16,7 +16,7 @@ const ContactInner = () => {
       <Appointment />
       <ContactBox />
       <Map />
-      <Subscribe />
+      {/* <Subscribe /> */}
     </>
   );
 };

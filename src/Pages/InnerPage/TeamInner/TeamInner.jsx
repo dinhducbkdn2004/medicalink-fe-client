@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FaArrowRightLong, FaFacebookF, FaLinkedinIn, FaXTwitter } from 'react-icons/fa6';
 import BreadCrumb from '@/Shared/BreadCrumb/BreadCrumb';
-import Subscribe from '@/Component1/Subscribe/Subscribe';
+// import Subscribe from '@/Component1/Subscribe/Subscribe';
 import { useDoctorsQuery } from '@/api/hooks/doctor/useDoctorQueries';
 import { Link } from 'react-router-dom';
 import Loading from '@/Shared/Loading/Loading';
@@ -130,7 +130,7 @@ const TeamInner = () => {
           )}
         </div>
       </section>
-      <Subscribe />
+      {/* <Subscribe /> */}
     </>
   );
 };

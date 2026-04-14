@@ -3,7 +3,7 @@ import BreadCrumb from '../../../Shared/BreadCrumb/BreadCrumb';
 import About from './About';
 import Mission from './Mission/Mission';
 import Testimonial from './Testimonial/Testimonial';
-import Subscribe from '../../../Component1/Subscribe/Subscribe';
+// import Subscribe from '../../../Component1/Subscribe/Subscribe';
 
 const AboutInner = () => {
   return (
@@ -16,7 +16,7 @@ const AboutInner = () => {
       <About />
       <Mission />
       <Testimonial />
-      <Subscribe />
+      {/* <Subscribe /> */}
     </>
   );
 };

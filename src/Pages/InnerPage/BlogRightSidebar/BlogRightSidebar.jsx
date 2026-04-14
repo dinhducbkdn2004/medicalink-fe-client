@@ -8,7 +8,7 @@ import {
 import { MdEmail } from 'react-icons/md';
 import callIcon from '/images/call3..png';
 import { IoSearch } from 'react-icons/io5';
-import Subscribe from '../../../Component1/Subscribe/Subscribe';
+// import Subscribe from '../../../Component1/Subscribe/Subscribe';
 import { GoArrowRight } from 'react-icons/go';
 import BlogSidebarCard from './BlogSidebarCard';
 import { useBlogsQuery, useBlogCategoriesQuery } from '../../../api/hooks/blog/useBlogQueries';
@@ -298,7 +298,7 @@ const BlogRightSidebar = () => {
         </div>
       </section>
 
-      <Subscribe />
+      {/* <Subscribe /> */}
     </>
   );
 };

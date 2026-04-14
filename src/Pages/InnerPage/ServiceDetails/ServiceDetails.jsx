@@ -11,7 +11,7 @@ import callIcon from '/images/call3..png';
 import Faq from './Accordion/Faq';
 import { BsFileEarmarkPdf } from 'react-icons/bs';
 import { HiDownload } from 'react-icons/hi';
-import Subscribe from '../../../Component1/Subscribe/Subscribe';
+// import Subscribe from '../../../Component1/Subscribe/Subscribe';
 import sanitizeHtml from 'sanitize-html';
 import ExpandableContent from '@/Shared/ExpandableContent/ExpandableContent';
 import { useSpecialtyDetailQuery } from '../../../api/hooks/specialty/useSpecialtyQueries';
@@ -237,7 +237,7 @@ const ServiceDetails = () => {
           </div>
         </div>
       </section>
-      <Subscribe />
+      {/* <Subscribe /> */}
     </>
   );
 };

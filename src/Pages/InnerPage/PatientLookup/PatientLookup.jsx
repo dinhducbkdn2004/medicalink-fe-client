@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FaArrowRightLong, FaPhone, FaUser, FaCalendarDays, FaIdCard } from 'react-icons/fa6';
 import { HiOutlineMailOpen } from 'react-icons/hi';
 import BreadCrumb from '../../../Shared/BreadCrumb/BreadCrumb';
-import Subscribe from '../../../Component1/Subscribe/Subscribe';
+// import Subscribe from '../../../Component1/Subscribe/Subscribe';
 import { usePatientSearchQuery } from '../../../api/hooks/patient/usePatientQueries';
 import Loading from '../../../Shared/Loading/Loading';
 
@@ -20,9 +20,9 @@ const PatientLookup = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     if (phone.trim() || email.trim()) {
-      setSearchParams({ 
-        phone: phone.trim() || undefined, 
-        email: email.trim() || undefined 
+      setSearchParams({
+        phone: phone.trim() || undefined,
+        email: email.trim() || undefined
       });
     }
   };
@@ -37,7 +37,7 @@ const PatientLookup = () => {
       <section className='py-28 bg-BodyBg-0'>
         <div className='Container'>
           <div className='max-w-3xl mx-auto'>
-            <div 
+            <div
               className='bg-white bg-opacity-30 border-2 border-white rounded-[40px] p-8 sm:p-14 shadow-xl backdrop-blur-md'
               data-aos='fade-up'
               data-aos-duration='1000'
@@ -94,8 +94,8 @@ const PatientLookup = () => {
                   </div>
 
                 <div className='flex flex-col items-center gap-6 pt-4'>
-                  <button 
-                    type='submit' 
+                  <button
+                    type='submit'
                     className='primary-btn h-[65px] px-16 w-full sm:w-auto min-w-[250px] shadow-lg shadow-PrimaryColor-0/20 active:scale-95 transition-transform'
                     disabled={isLoading}
                   >
@@ -188,7 +188,7 @@ const PatientLookup = () => {
           </div>
         </div>
       </section>
-      <Subscribe />
+      {/* <Subscribe /> */}
     </>
   );
 };

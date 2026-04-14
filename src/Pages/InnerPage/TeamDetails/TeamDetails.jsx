@@ -1,7 +1,7 @@
 import { FaArrowRightLong } from 'react-icons/fa6';
 import BreadCrumb from '../../../Shared/BreadCrumb/BreadCrumb';
 import TeamDetailsMain from './TeamDetailsMain';
-import Subscribe from '../../../Component1/Subscribe/Subscribe';
+// import Subscribe from '../../../Component1/Subscribe/Subscribe';
 import { useParams } from 'react-router-dom';
 import { useDoctorDetailQuery } from '../../../api/hooks/doctor/useDoctorQueries';
 import Loading from '../../../Shared/Loading/Loading';
@@ -56,7 +56,7 @@ const TeamDetails = () => {
         url={`/team-details/${id}`}
       />
       <TeamDetailsMain doctor={doctor} />
-      <Subscribe />
+      {/* <Subscribe /> */}
     </>
   );
 };

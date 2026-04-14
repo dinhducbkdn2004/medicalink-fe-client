@@ -2,7 +2,7 @@ import testiQuote from '/images/quote3.png';
 import { FaArrowRightLong } from 'react-icons/fa6';
 import TestimonialInnerCard from './TestimonialInnerCard';
 import BreadCrumb from '../../../Shared/BreadCrumb/BreadCrumb';
-import Subscribe from '../../../Component1/Subscribe/Subscribe';
+// import Subscribe from '../../../Component1/Subscribe/Subscribe';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -145,7 +145,7 @@ const TestimonialInner = () => {
         </section>
       )}
       <Blog />
-      <Subscribe />
+      {/* <Subscribe /> */}
     </>
   );
 };

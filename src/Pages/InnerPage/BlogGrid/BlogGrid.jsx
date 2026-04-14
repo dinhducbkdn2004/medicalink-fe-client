@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { FaArrowRightLong, FaCircle } from 'react-icons/fa6';
 import BreadCrumb from '@/Shared/BreadCrumb/BreadCrumb';
 import { GoArrowRight } from 'react-icons/go';
-import Subscribe from '@/Component1/Subscribe/Subscribe';
+// import Subscribe from '@/Component1/Subscribe/Subscribe';
 import { useBlogsQuery } from '@/api/hooks/blog/useBlogQueries';
 import { Link } from 'react-router-dom';
 import Loading from '@/Shared/Loading/Loading';
@@ -148,7 +148,7 @@ const BlogGrid = () => {
           )}
         </div>
       </section>
-      <Subscribe />
+      {/* <Subscribe /> */}
     </>
   );
 };

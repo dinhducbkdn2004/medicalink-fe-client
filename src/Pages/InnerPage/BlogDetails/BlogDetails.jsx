@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import HelmetChanger from '../../../Shared/Helmet/Helmet';
 import { FaArrowRightLong, FaCircle } from 'react-icons/fa6';
 import BreadCrumb from '../../../Shared/BreadCrumb/BreadCrumb';
-import Subscribe from '../../../Component1/Subscribe/Subscribe';
+// import Subscribe from '../../../Component1/Subscribe/Subscribe';
 import { useBlogDetailQuery } from '../../../api/hooks/blog/useBlogQueries';
 import Loading from '../../../Shared/Loading/Loading';
 import sanitizeHtml from 'sanitize-html';
@@ -177,7 +177,7 @@ const BlogDetails = () => {
           </div>
         </div>
       </section>
-      <Subscribe />
+      {/* <Subscribe /> */}
     </>
   );
 };

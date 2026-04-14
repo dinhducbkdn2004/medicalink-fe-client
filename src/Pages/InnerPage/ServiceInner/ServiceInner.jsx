@@ -3,7 +3,7 @@ import { FaArrowRightLong } from 'react-icons/fa6';
 import BreadCrumb from '@/Shared/BreadCrumb/BreadCrumb';
 import ServiceCard from './ServiceCard';
 import Appointment from './Appointment/Appointment';
-import Subscribe from '@/Component1/Subscribe/Subscribe';
+// import Subscribe from '@/Component1/Subscribe/Subscribe';
 import { useSpecialtiesQuery } from '@/api/hooks/specialty/useSpecialtyQueries';
 import Loading from '@/Shared/Loading/Loading';
 import usePagination from '@/hooks/usePagination';
@@ -28,7 +28,7 @@ const ServiceInner = () => {
   });
 
   const specialties = useMemo(() => response?.data?.data || response?.data || [], [response]);
-  
+
   useEffect(() => {
     const total = response?.meta?.total || response?.data?.meta?.total || specialties.length;
     if (total) {
@@ -99,7 +99,7 @@ const ServiceInner = () => {
         </div>
       </section>
       <Appointment />
-      <Subscribe />
+      {/* <Subscribe /> */}
     </>
   );
 };

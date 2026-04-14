@@ -7,7 +7,7 @@ import ContentSlider from '../../Component1/ContentSlider/ContentSlider';
 import Counter from '../../Component1/Counter/Counter';
 import Feature from '../../Component1/Feature/Feature';
 import Service from '../../Component1/Service/Service';
-import Subscribe from '../../Component1/Subscribe/Subscribe';
+// import Subscribe from '../../Component1/Subscribe/Subscribe';
 import TeamMember from '../../Component1/TeamMember/TeamMember';
 import Testimonial from '../../Component1/Testimonial/Testimonial';
 
@@ -25,7 +25,7 @@ const Home1 = () => {
       <Testimonial />
       <Brand />
       <Blog />
-      <Subscribe />
+      {/* <Subscribe /> */}
     </>
   );
 };

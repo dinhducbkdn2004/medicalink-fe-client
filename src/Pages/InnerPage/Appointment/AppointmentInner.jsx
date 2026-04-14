@@ -1,7 +1,7 @@
 import { FaArrowRightLong } from 'react-icons/fa6';
 import Appointment from './Appointment';
 import BreadCrumb from '../../../Shared/BreadCrumb/BreadCrumb';
-import Subscribe from '../../../Component1/Subscribe/Subscribe';
+// import Subscribe from '../../../Component1/Subscribe/Subscribe';
 
 const AppointmentInner = () => {
   return (
@@ -12,7 +12,7 @@ const AppointmentInner = () => {
         breadCrumbLink={'Appointment'}
       />
       <Appointment />
-      <Subscribe />
+      {/* <Subscribe /> */}
     </>
   );
 };

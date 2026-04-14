@@ -10,7 +10,7 @@ import callIcon from '/images/call3..png';
 import Faq from './Accordion/Faq';
 import { HiDownload } from 'react-icons/hi';
 import { BsFileEarmarkPdf } from 'react-icons/bs';
-import Subscribe from '../../../Component1/Subscribe/Subscribe';
+// import Subscribe from '../../../Component1/Subscribe/Subscribe';
 
 const ProjectDetails = () => {
   return (
@@ -309,8 +309,7 @@ const ProjectDetails = () => {
           </div>
         </div>
       </section>
-      <Subscribe />
-    </>
+/    </>
   );
 };
 
